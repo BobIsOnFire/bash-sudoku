@@ -16,9 +16,10 @@ ALL_SCRIPTS := $(addsuffix .sh,$(INCLUDE_ORDER))
 PREFIX := /usr/bin
 BINARY_INSTALL_PATH := $(PREFIX)/$(BINARY_NAME)
 
-.PHONY: all install
+.PHONY: all install clean install-clean
 
 all: $(BINARY_PATH)
+install: all $(BINARY_INSTALL_PATH)
 
 $(BINARY_PATH): $(ALL_SCRIPTS)
 	echo '#!/bin/bash --' >$@.tmp
@@ -32,6 +33,12 @@ $(BINARY_PATH): $(ALL_SCRIPTS)
 	mv $@.tmp $@
 	chmod a+x $@
 
-install: all
-	mkdir -p $(PREFIX)
-	install -m 755 $(BINARY_PATH) $(BINARY_INSTALL_PATH)
+$(BINARY_INSTALL_PATH): $(BINARY_PATH)
+	mkdir -p $(@D)
+	install -m 755 $< $@
+
+clean:
+	rm -rf $(BINARY_PATH)
+
+install-clean: clean
+	rm -rf $(BINARY_INSTALL_PATH)
