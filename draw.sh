@@ -7,6 +7,17 @@ tile_width=3
 field_height=$(( 9 * $tile_height + 10 ))
 field_width=$(( 9 * $tile_width + 10 ))
 
+# Moves to the center of the tile
+function tile_move() {
+    row="$1"; shift
+    col="$1"; shift
+
+    tile_posy=$(( 1 + tile_height / 2 + row * (tile_height + 1) ))
+    tile_posx=$(( 1 + tile_width / 2 + col * (tile_width + 1) ))
+
+    move $tile_posy $tile_posx
+}
+
 function repeat() {
     str="$1"; shift
     reps="$1"; shift
@@ -52,17 +63,11 @@ function draw_borders() {
 }
 
 function draw_grid() {
-    move $(( tile_height / 2 + 1 )) $(( tile_width / 2 + 1 )) # Center of the first up-left tile
     for row in {0..8}; do
         for col in {0..8}; do
+            tile_move $row $col
             echo -n "${grid[row * 9 + col]}"
-            right $tile_width # To the center of the next tile
         done
-        
-        # Jump to the center of the first tile in the next row 
-        line_start
-        down $(( tile_height + 1 ))
-        right $(( tile_width / 2 + 1 ))
     done
 }
 

@@ -13,7 +13,7 @@ erase_tiles
 
 draw_field
 
-move $(( tile_height / 2 + 1 )) $(( tile_width / 2 + 1 ))
+tile_move 0 0
 posx=0
 posy=0
 
@@ -42,26 +42,26 @@ while true; do
             ;;
         w|W|$key_up|$key_up_alt)
             if [ $posy -gt 0 ]; then
-                up $(( tile_height + 1 ))
                 posy=$(( posy - 1 ))
+                tile_move $posy $posx
             fi
             ;;
         s|S|$key_down|$key_down_alt)
             if [ $posy -lt 8 ]; then
-                down $(( tile_height + 1 ))
                 posy=$(( posy + 1 ))
+                tile_move $posy $posx
             fi
             ;;
         a|A|$key_left|$key_left_alt)
             if [ $posx -gt 0 ]; then
-                left $(( tile_width + 1 ))
                 posx=$(( posx - 1 ))
+                tile_move $posy $posx
             fi
             ;;
         d|D|$key_right|$key_right_alt)
             if [ $posx -lt 8 ]; then
-                right $(( tile_width + 1 ))
                 posx=$(( posx + 1 ))
+                tile_move $posy $posx
             fi
             ;;
         q|Q|$key_escape)
