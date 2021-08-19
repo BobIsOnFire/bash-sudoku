@@ -1,4 +1,4 @@
-BINARY_NAME = sudoku
+BINARY_NAME = play-sudoku
 BINARY_PATH = ./$(BINARY_NAME)
 
 BINARY_ENTRY_POINT = main

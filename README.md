@@ -17,9 +17,9 @@ To build a project, run:
 $ make
 ```
 
-`sudoku` binary should appear. `./sudoku` should be enough to start the game!
+`play-sudoku` binary should appear. `./play-sudoku` should be enough to start the game!
 
-You can also install `sudoku` into your system:
+You can also install `play-sudoku` into your system:
 
 ```sh
 $ sudo make install PREFIX=...
