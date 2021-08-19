@@ -28,6 +28,14 @@ function home() {
     move 0 0
 }
 
+function clear_row() {
+    tput el
+}
+
+function clear_screen() {
+    tput ed
+}
+
 function clear() {
     home
     tput clear

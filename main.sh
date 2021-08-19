@@ -6,16 +6,23 @@ if [ $term_height -lt $field_height -o $term_width -lt $field_width ]; then
     exit 1
 fi
 
-# TODO: Save and load grids
-grid=( $seed )
-shuffle_grid
-erase_tiles
+if [ -z "$load_file" ]; then
+    grid=( $seed )
+    shuffle_grid
+    erase_tiles
+else
+    load_grid "$load_file"
+    if [ "$?" != "0" ]; then
+        exit 1
+    fi
+fi
 
 draw_field
 
 tile_move 0 0
 posx=0
 posy=0
+saved=
 
 set_sudoku_nums_colors
 
@@ -33,12 +40,24 @@ while true; do
             left 1
 
             grid[posy * 9 + posx]="$key"
+            saved=
 
             if check_finished; then
                 reset_colors
                 status You won!
                 break
             fi
+            ;;
+        x|X|0|$key_space|$key_backspace)
+            if [ -z "${editable[posy * 9 + posx]}" ]; then
+                continue
+            fi
+
+            echo -n ' '
+            left 1
+
+            grid[posy * 9 + posx]=' '
+            saved=
             ;;
         w|W|$key_up|$key_up_alt)
             if [ $posy -gt 0 ]; then
@@ -64,20 +83,59 @@ while true; do
                 tile_move $posy $posx
             fi
             ;;
+        h|H)
+            reset_colors
+            status "$controls"
+            set_sudoku_nums_colors
+            tile_move $posy $posx
+            ;;
         q|Q|$key_escape)
             reset_colors
-            status Exit
-            break
-            ;;
-        x|X|0|$key_space|$key_backspace)
-            if [ -z "${editable[posy * 9 + posx]}" ]; then
-                continue
+
+            if [ -z "$saved" ]; then
+                prompt_yn "Save game?"
+
+                if [ "$prompt_answer" = "y" ]; then
+                    prompt "Enter filename"
+                    save_grid "$prompt_answer" 2>/tmp/sudoku-err.txt
+                    if [ "$?" = "0" ]; then
+                        status "Game saved to $(realpath $prompt_answer), exiting"
+                        saved=1
+                        break
+                    else
+                        status "Something went wrong while saving, try again"
+                        cat /tmp/sudoku-err.txt
+                        rm /tmp/sudoku-err.txt
+
+                        set_sudoku_nums_colors
+                        tile_move $posy $posx
+                    fi
+                else
+                    status "Game not saved, exiting"
+                    break
+                fi
+            else
+                status "Exiting"
+                break
             fi
 
-            echo -n ' '
-            left 1
+            ;;
+        g|G)
+            reset_colors
+            prompt "Enter filename"
+            save_grid "$prompt_answer" 2>/tmp/sudoku-err.txt
+            if [ "$?" = "0" ]; then
+                status "Game saved to $(realpath $prompt_answer)"
+                saved=1
+            else
+                status "Something went wrong while saving, try again"
+                cat /tmp/sudoku-err.txt
+                rm /tmp/sudoku-err.txt
+            fi
 
-            grid[posy * 9 + posx]=' '
+            set_sudoku_nums_colors
+            tile_move $posy $posx
+
             ;;
         *)
             ;;

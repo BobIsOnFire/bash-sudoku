@@ -66,6 +66,11 @@ function draw_grid() {
     for row in {0..8}; do
         for col in {0..8}; do
             tile_move $row $col
+            if [ -z "${editable[row * 9 + col]}" ]; then
+                reset_colors
+            else
+                set_sudoku_nums_colors
+            fi
             echo -n "${grid[row * 9 + col]}"
         done
     done
@@ -79,5 +84,25 @@ function draw_field() {
 
 function status() {
     move $field_height 0
-    echo $@
+    clear_screen
+    echo "$@"
+}
+
+function prompt() {
+    move $field_height 0
+    clear_screen
+    echo -n "$@: "
+    read prompt_answer
+}
+
+function prompt_yn() {
+    question="$@ (y/n)"
+    while true; do
+        prompt $question
+        case "$prompt_answer" in
+            y|n|Y|N)
+                break
+                ;;
+        esac
+    done
 }

@@ -3,8 +3,9 @@ BINARY_PATH = ./$(BINARY_NAME)
 
 BINARY_ENTRY_POINT = main
 
-DEPENDS.main = generator checker draw terminal input
-DEPENDS.generator = helpers
+DEPENDS.main = generator checker draw terminal input cmd-params
+DEPENDS.cmd-params = version
+DEPENDS.generator = helpers cmd-params
 DEPENDS.draw = terminal
 
 mk-uniq = $(if $(1),$(firstword $(1)) $(call mk-uniq,$(filter-out $(firstword $(1)),$(1))))

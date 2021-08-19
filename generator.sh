@@ -30,8 +30,22 @@ function shuffle_grid() {
     grid=( $(shuffle_block_rows) )
 }
 
-# TODO: Difficulty modes. Right now we erase 30 tiles, this is a relatively easy sudoku
-tiles_erased=30
+# Difficulty modes
+case "$difficulty" in
+    1|easy)
+        tiles_erased=30
+        ;;
+    2|medium)
+        tiles_erased=40
+        ;;
+    3|hard)
+        tiles_erased=50
+        ;;
+    *)
+        echo "Error: unknown difficulty value: $difficulty (expected 1, 'easy', 2, 'medium', 3, or 'hard')" 1>&2
+        exit 1
+        ;;
+esac
 
 function erase_tiles() {
     for i in $(shuf -e {0..80} | head -$tiles_erased); do
@@ -53,3 +67,45 @@ seed=`cat <<EOF
 3 7 4 2 5 6 8 9 1
 EOF
 `
+
+function save_grid() {
+    filename="$1"; shift
+    for row in {0..8}; do
+        for col in {0..8}; do
+            echo -n ${grid[row * 9 + col]}
+
+            test -z "${editable[row * 9 + col]}"
+            echo -n $?
+
+            echo -n ' '
+        done
+    done >"$filename"
+}
+
+function load_grid() {
+    filename="$1"; shift
+    loaded_str="`cat "$filename"`"
+    
+    rv=$?
+    if [ "$rv" != "0" ]; then
+        return $rv
+    fi
+
+    loaded=( $loaded_str )
+    for row in {0..8}; do
+        for col in {0..8}; do
+            grid_num=$(( ${loaded[row * 9 + col]} / 10 ))
+            editable_num=$(( ${loaded[row * 9 + col]} % 10 ))
+
+            if [ "$grid_num" = "0" ]; then
+                grid[row * 9 + col]=' '
+            else
+                grid[row * 9 + col]="$grid_num"
+            fi
+
+            if [ "$editable_num" = "1" ]; then
+                editable[row * 9 + col]=1
+            fi
+        done
+    done
+}
