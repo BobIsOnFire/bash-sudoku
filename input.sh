@@ -15,6 +15,7 @@ key_right_alt=$'\e0C'
 key_space=$'\x20'
 key_backspace=$'\x7f'
 key_escape=$'\e'
+key_clear=$'\x0C'
 
 function listen_key() {
     # -s so that input will not echo

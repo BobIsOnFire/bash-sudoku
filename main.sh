@@ -137,6 +137,12 @@ while true; do
             tile_move $posy $posx
 
             ;;
+        $key_clear)
+            reset_colors
+            draw_field
+            set_sudoku_nums_colors
+            tile_move $posy $posx
+            ;;
         *)
             ;;
     esac

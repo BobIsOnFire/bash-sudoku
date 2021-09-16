@@ -6,6 +6,7 @@ Game controls:
     WASD or arrow keys          Move into adjacent tile
     1-9                         Put a number into the tile
     X, 0, space or backspace    Clear the tile
+    Ctrl-L                      Redraw current game (if something went wrong)
     G                           Save the game
     Q, escape or Ctrl-C         Leave the game\
 "
