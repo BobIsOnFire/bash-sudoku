@@ -59,7 +59,7 @@ c_white=7
 default_forecolor=$c_white
 default_backcolor=$c_black
 
-sudoku_nums_color=$c_magenta
+sudoku_nums_color=$c_green
 
 function set_sudoku_nums_colors() {
     tput setab $default_backcolor
