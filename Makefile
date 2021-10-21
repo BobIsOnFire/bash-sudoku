@@ -3,7 +3,7 @@ BINARY_PATH = ./$(BINARY_NAME)
 
 BINARY_ENTRY_POINT = main
 
-DEPENDS.main = generator checker draw terminal input cmd-params
+DEPENDS.main = generator validator draw terminal input cmd-params
 DEPENDS.cmd-params = version
 DEPENDS.generator = helpers cmd-params
 DEPENDS.draw = terminal
