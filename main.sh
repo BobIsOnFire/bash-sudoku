@@ -10,11 +10,13 @@ if [ -z "$load_file" ]; then
     grid=( $seed )
     shuffle_grid
     erase_tiles
+    saved=
 else
     load_grid "$load_file"
     if [ "$?" != "0" ]; then
         exit 1
     fi
+    saved=1
 fi
 
 draw_field
@@ -22,7 +24,6 @@ draw_field
 tile_move 0 0
 posx=0
 posy=0
-saved=
 
 set_sudoku_nums_colors
 
