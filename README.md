@@ -33,10 +33,7 @@ The objective is to fill a 9×9 grid with digits so that each column, each row, 
 
 ## Controls
 
-* WASD or arrow keys - move into the adjacent tile
-* 1-9 - put a number into the tile
-* X, 0, space or backspace - clear the tile
-* Q, escape or Ctrl+C - leave game
+Check `./play-sudoku --help` or press `H` in-game for up-to-date controls information!
 
 # Contributing
 
