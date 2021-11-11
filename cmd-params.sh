@@ -1,5 +1,5 @@
 version="Bash Sudoku v$version_string, Copyright (C) 2021-$year Nikita Akatyev"
-usage="Usage: $0 [-d <num> | --difficulty=<num>] [<load_file>]"
+usage="Usage: $0 [-d <num> | --difficulty=<num>] [--] [<load_file>]"
 controls="\
 Game controls:
     H                           In-game help on controls
@@ -18,6 +18,7 @@ Positional arguments:
     load_file                   A file from which saved game should be loaded
 Non-positional arguments:
     -h | --help                 Print this help message
+    -v | --version              Print version and author info
     -d <n> | --difficulty=<n>   Set the difficulty level. Supported values:
                    1 or 'easy'  Easy mode (30 tiles to fill)
                  2 or 'medium'  Medium mode (40 tiles to fill)
@@ -44,6 +45,16 @@ while [ $# -gt 0 ]; do
             echo "$version"
             exit
             ;;
+	--)
+	    POSITIONAL+=($@)
+	    break
+	    ;;
+	-*)
+	    echo "Invalid option: $key"
+	    echo
+	    echo "$help"
+	    exit 1
+	    ;;
         *)
             POSITIONAL+=("$key")
             ;;
