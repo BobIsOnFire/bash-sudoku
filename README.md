@@ -25,7 +25,7 @@ You can also install `play-sudoku` into your system:
 $ sudo make install PREFIX=...
 ```
 
-`PREFIX=...` is optional, default is `/usr/bin`.
+`PREFIX=...` is optional, default is `/usr/local/bin`.
 
 # How to play
 

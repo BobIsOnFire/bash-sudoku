@@ -54,19 +54,12 @@ c_cyan=6
 c_white=7
 
 # Defaults
-# TODO: Someone might use a white-bg black-fg terminal, then our defaults do not make any sense
-# Maybe tput supports checking them
-default_forecolor=$c_white
-default_backcolor=$c_black
-
 sudoku_nums_color=$c_green
 
 function set_sudoku_nums_colors() {
-    tput setab $default_backcolor
     tput setaf $sudoku_nums_color
 }
 
 function reset_colors() {
-    tput setab $default_backcolor
-    tput setaf $default_forecolor
+    tput init
 }

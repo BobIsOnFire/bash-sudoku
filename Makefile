@@ -14,7 +14,7 @@ mk-include-order = $(call mk-uniq,$(foreach d,$(DEPENDS.$(1)),$(call mk-include-
 INCLUDE_ORDER := $(call mk-include-order,$(BINARY_ENTRY_POINT))
 ALL_SCRIPTS := $(addsuffix .sh,$(INCLUDE_ORDER))
 
-PREFIX := /usr/bin
+PREFIX := /usr/local/bin
 BINARY_INSTALL_PATH := $(PREFIX)/$(BINARY_NAME)
 
 .PHONY: all install clean install-clean
